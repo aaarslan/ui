@@ -1,6 +1,9 @@
 import { type FC, useState } from "react";
 import styles from "./colorpalette.module.css";
-import { hexToHsb, hsbToHex } from "./helpers";
+import { contrastRatio, hexToHsb, hsbToHex } from "./helpers";
+import { InfoBox } from "./infobox.component";
+import { Palette } from "./palette.component";
+import { SampleCard } from "./samplecard.component";
 
 interface ColorpickerProps {
   color: string;
@@ -20,11 +23,27 @@ const Colorpicker: FC<ColorpickerProps> = ({
   );
 };
 
-const theme = {
-  light: true,
-};
+function paletteGenerator(hue: number) {
+  const primaryText = hsbToHex([hue, 57, 24]).slice(0, 7);
+  const secondaryText = hsbToHex([hue, 27, 48]).slice(0, 7);
+  const primaryOutline = hsbToHex([hue, 23, 65]).slice(0, 7);
+  const secondaryOutline = hsbToHex([hue, 5, 94]).slice(0, 7);
+  const fill = hsbToHex([hue, 2, 98]).slice(0, 7);
+  return { primaryText, secondaryText, primaryOutline, secondaryOutline, fill };
+}
+
+function paletteGeneratorDark(hue: number) {
+  const primaryText = hsbToHex([hue, 57, 90]).slice(0, 7);
+  const secondaryText = hsbToHex([hue, 27, 75]).slice(0, 7);
+  const primaryOutline = hsbToHex([hue, 23, 80]).slice(0, 7);
+  const secondaryOutline = hsbToHex([hue, 5, 94]).slice(0, 7);
+  const fill = hsbToHex([hue, 2, 98]).slice(0, 7);
+
+  return { primaryText, secondaryText, primaryOutline, secondaryOutline, fill };
+}
 
 const Colorpalette = () => {
+  const [theme, setTheme] = useState({ light: true });
   const [brand, setBrand] = useState("inherit");
   const background = theme.light ? "#ffffff" : "#1a1a1a";
   const [open, setOpen] = useState(false);
@@ -32,55 +51,68 @@ const Colorpalette = () => {
   const normalizedHue = Math.round(hue);
   const normalizedSaturation = Math.round(saturation);
   const normalizedBrightness = Math.round(brightness);
+  const { primaryText, secondaryText, primaryOutline, secondaryOutline, fill } =
+    theme.light
+      ? paletteGenerator(normalizedHue)
+      : paletteGeneratorDark(normalizedHue);
 
   return (
     <div className={styles.container}>
-      <div className={styles.color}>
-        <div className={styles.colorcontent}>
-          <span className={styles.hex}>
-            Theme: {theme.light ? "Light" : "Dark"}
-          </span>
-          <span className={styles.hex}>
-            Hue: {!Number.isNaN(normalizedHue) ? normalizedHue : "0"}
-          </span>
-          <span className={styles.hex}>
-            Saturation:{" "}
-            {!Number.isNaN(normalizedSaturation) ? normalizedSaturation : "0"}
-          </span>
-          <span className={styles.hex}>
-            Brightness:{" "}
-            {!Number.isNaN(normalizedBrightness) ? normalizedBrightness : "0"}
-          </span>
+      <InfoBox
+        {...{
+          theme,
+          setTheme,
+          normalizedHue,
+          normalizedSaturation,
+          normalizedBrightness,
+          brand,
+          fill,
+        }}
+      />
+      <div>
+        {contrastRatio(brand, fill) > 4.5 ? (
+          <span className={styles.contrast}>✅</span>
+        ) : (
+          <span className={styles.contrast}>❌</span>
+        )}
+        <div
+          className={styles.color}
+          style={{ backgroundColor: `${hsbToHex(hexToHsb(brand))}` }}
+          onClick={() => setOpen(true)}
+          onKeyDown={(e) => e.key === "Enter" && setOpen(true)}
+          tabIndex={0}
+          role="button"
+          aria-label="Select brand color"
+        >
+          <span className={styles.text}>Brand</span>
         </div>
       </div>
+      <Palette
+        {...{
+          primaryText,
+          secondaryText,
+          primaryOutline,
+          secondaryOutline,
+          fill,
+          background,
+        }}
+      />
       <div
-        className={styles.color}
-        style={{ backgroundColor: `${hsbToHex(hexToHsb(brand))}` }}
-        onClick={() => setOpen(true)}
-        onKeyDown={(e) => e.key === "Enter" && setOpen(true)}
-        tabIndex={0}
-        role="button"
-        aria-label="Select brand color"
+        style={{
+          marginTop: "16px",
+        }}
       >
-        <span className={styles.text}>Brand</span>
-      </div>
-      <div className={styles.color}>
-        <span className={styles.text}>Primary Text</span>
-      </div>
-      <div className={styles.color}>
-        <span className={styles.text}>Secondary Text</span>
-      </div>
-      <div className={styles.color}>
-        <span className={styles.text}>Primary Outline</span>
-      </div>
-      <div className={styles.color}>
-        <span className={styles.text}>Secondary Outline</span>
-      </div>
-      <div className={styles.color}>
-        <span className={styles.text}>Fill</span>
-      </div>
-      <div className={styles.color} style={{ backgroundColor: background }}>
-        <span className={styles.text}>Background</span>
+        <SampleCard
+          {...{
+            brand,
+            primaryText,
+            secondaryText,
+            primaryOutline,
+            secondaryOutline,
+            fill,
+            background,
+          }}
+        />
       </div>
       <dialog open={open} className={styles.dialog}>
         <div className={styles.content}>
