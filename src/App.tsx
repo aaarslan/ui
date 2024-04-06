@@ -1,5 +1,6 @@
+import { Colorpalette } from "../lib/colorpalette";
 function App() {
-  return <></>;
+  return <Colorpalette />;
 }
 
 export default App;
