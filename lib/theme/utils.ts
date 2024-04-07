@@ -78,12 +78,60 @@ const contrastRatio = (color1: string, color2: string) => {
   return l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05);
 };
 
+const lightThemeSteps = {
+  saturationSteps: [57, 27, 23, 30, 10],
+  brightnessSteps: [24, 48, 65, 95, 100],
+};
+
+const darkThemeSteps = {
+  saturationSteps: [55, 30, 25, 10, 2],
+  brightnessSteps: [90, 75, 80, 95, 98],
+};
+
+function paletteGenerator(hue: number, background: string, isLight: boolean) {
+  const saturationSteps = isLight
+    ? lightThemeSteps.saturationSteps
+    : darkThemeSteps.saturationSteps;
+  const brightnessSteps = isLight
+    ? lightThemeSteps.brightnessSteps
+    : darkThemeSteps.brightnessSteps;
+  const colors = saturationSteps.map((saturation, index) =>
+    hsbToHex([hue, saturation, brightnessSteps[index]]).slice(0, 7),
+  );
+
+  for (let i = 0; i < colors.length; i++) {
+    while (contrastRatio(colors[i], background) < 4.5) {
+      saturationSteps[i] += 1;
+      brightnessSteps[i] -= 1;
+      colors[i] = hsbToHex([hue, saturationSteps[i], brightnessSteps[i]]).slice(
+        0,
+        7,
+      );
+      if (saturationSteps[i] > 100 || brightnessSteps[i] < 0) {
+        break;
+      }
+    }
+  }
+
+  const accent = hsbToHex([hue, 30, 95]).slice(0, 7);
+  const fill = hsbToHex([hue, 10, 100]).slice(0, 7);
+
+  return {
+    primaryText: colors[0],
+    secondaryText: colors[1],
+    stroke: colors[2],
+    accent,
+    fill,
+  };
+}
+
 export {
   contrastRatio,
   hexToHsb,
   hexToRgb,
   hsbToHex,
   hsbToRgb,
+  paletteGenerator,
   rgbToHex,
   rgbToHsb,
 };

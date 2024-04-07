@@ -23,28 +23,76 @@ const Colorpicker: FC<ColorpickerProps> = ({
   );
 };
 
-function paletteGenerator(hue: number) {
-  const primaryText = hsbToHex([hue, 57, 24]).slice(0, 7);
-  const secondaryText = hsbToHex([hue, 27, 48]).slice(0, 7);
-  const primaryOutline = hsbToHex([hue, 23, 65]).slice(0, 7);
-  const secondaryOutline = hsbToHex([hue, 5, 94]).slice(0, 7);
-  const fill = hsbToHex([hue, 2, 98]).slice(0, 7);
-  return { primaryText, secondaryText, primaryOutline, secondaryOutline, fill };
+function paletteGenerator(hue: number, background: string) {
+  const saturationSteps = [57, 27, 23, 30, 10];
+  const brightnessSteps = [24, 48, 65, 95, 100];
+  const colors = saturationSteps.map((saturation, index) =>
+    hsbToHex([hue, saturation, brightnessSteps[index]]).slice(0, 7),
+  );
+
+  for (let i = 0; i < colors.length; i++) {
+    while (contrastRatio(colors[i], background) < 4.5) {
+      saturationSteps[i] += 1;
+      brightnessSteps[i] -= 1;
+      colors[i] = hsbToHex([hue, saturationSteps[i], brightnessSteps[i]]).slice(
+        0,
+        7,
+      );
+      if (saturationSteps[i] > 100 || brightnessSteps[i] < 0) {
+        break;
+      }
+    }
+  }
+
+  const secondaryOutline = hsbToHex([hue, 30, 95]).slice(0, 7);
+  const fill = hsbToHex([hue, 10, 100]).slice(0, 7);
+
+  return {
+    primaryText: colors[0],
+    secondaryText: colors[1],
+    primaryOutline: colors[2],
+    secondaryOutline,
+    fill,
+  };
 }
 
-function paletteGeneratorDark(hue: number) {
-  const primaryText = hsbToHex([hue, 55, 90]).slice(0, 7);
-  const secondaryText = hsbToHex([hue, 30, 75]).slice(0, 7);
-  const primaryOutline = hsbToHex([hue, 25, 80]).slice(0, 7);
-  const secondaryOutline = hsbToHex([hue, 10, 95]).slice(0, 7);
-  const fill = hsbToHex([hue, 2, 98]).slice(0, 7);
-  return { primaryText, secondaryText, primaryOutline, secondaryOutline, fill };
+function paletteGeneratorDark(hue: number, background: string) {
+  const saturationSteps = [55, 30, 25, 10, 2];
+  const brightnessSteps = [90, 75, 80, 95, 98];
+  const colors = saturationSteps.map((saturation, index) =>
+    hsbToHex([hue, saturation, brightnessSteps[index]]).slice(0, 7),
+  );
+
+  for (let i = 0; i < colors.length; i++) {
+    while (contrastRatio(colors[i], background) < 4.5) {
+      saturationSteps[i] += 1;
+      brightnessSteps[i] -= 1;
+      colors[i] = hsbToHex([hue, saturationSteps[i], brightnessSteps[i]]).slice(
+        0,
+        7,
+      );
+      if (saturationSteps[i] > 100 || brightnessSteps[i] < 0) {
+        break;
+      }
+    }
+  }
+
+  const secondaryOutline = hsbToHex([hue, 30, 95]).slice(0, 7);
+  const fill = hsbToHex([hue, 10, 100]).slice(0, 7);
+
+  return {
+    primaryText: colors[0],
+    secondaryText: colors[1],
+    primaryOutline: colors[2],
+    secondaryOutline,
+    fill,
+  };
 }
 
 const Colorpalette = () => {
   const [theme, setTheme] = useState({ light: true });
-  const [brand, setBrand] = useState("inherit");
-  const background = theme.light ? "#ffffff" : "#1a1a1a";
+  const [brand, setBrand] = useState("#8839ef");
+  const background = theme.light ? "#eff1f5" : "#1e1e2e";
   const [open, setOpen] = useState(false);
   const [hue, saturation, brightness] = hexToHsb(brand);
   const normalizedHue = Math.round(hue);
@@ -52,8 +100,8 @@ const Colorpalette = () => {
   const normalizedBrightness = Math.round(brightness);
   const { primaryText, secondaryText, primaryOutline, secondaryOutline, fill } =
     theme.light
-      ? paletteGenerator(normalizedHue)
-      : paletteGeneratorDark(normalizedHue);
+      ? paletteGenerator(normalizedHue, background)
+      : paletteGeneratorDark(normalizedHue, background);
 
   return (
     <div className={styles.container}>
@@ -69,7 +117,7 @@ const Colorpalette = () => {
         }}
       />
       <div>
-        {contrastRatio(brand, fill) > 4.5 ? (
+        {contrastRatio(brand, fill) > 3 ? (
           <span className={styles.contrast}>✅</span>
         ) : (
           <span className={styles.contrast}>❌</span>

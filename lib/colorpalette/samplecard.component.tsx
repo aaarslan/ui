@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { contrastRatio } from "./helpers";
 interface SampleCardProps {
   brand: string;
   primaryText: string;
@@ -102,7 +103,9 @@ const SampleCard: FC<SampleCardProps> = ({
           type="button"
           style={{
             backgroundColor: `${brand}`,
-            color: `${fill}`,
+            color: `${
+              contrastRatio(brand, "#ffffff") > 4.5 ? "#ffffff" : "#1a1a1a"
+            }`,
             padding: "8px 16px",
             border: "none",
             borderRadius: "0 6px 6px 0",
