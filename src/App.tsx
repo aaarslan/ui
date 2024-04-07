@@ -2,7 +2,7 @@ import { Button } from "../lib/button";
 import { useTheme } from "../lib/theme";
 import { Typography } from "../lib/typography";
 function App() {
-  const { theme, setIsLight, isLight, setBrand } = useTheme();
+  const { theme, setIsLight, isLight } = useTheme();
 
   return (
     <body
