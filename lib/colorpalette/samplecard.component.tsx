@@ -133,9 +133,13 @@ const SampleCard: FC<SampleCardProps> = ({
             height: "50px",
             width: "50px",
             borderRadius: "32px",
+            padding: "4px",
+            fontSize: "10px",
+            lineHeight: "12px",
+            color: `${primaryText}`,
           }}
         >
-          🎉
+          #hello
         </span>
       </span>
     </div>

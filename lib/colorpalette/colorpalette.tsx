@@ -33,12 +33,11 @@ function paletteGenerator(hue: number) {
 }
 
 function paletteGeneratorDark(hue: number) {
-  const primaryText = hsbToHex([hue, 57, 90]).slice(0, 7);
-  const secondaryText = hsbToHex([hue, 27, 75]).slice(0, 7);
-  const primaryOutline = hsbToHex([hue, 23, 80]).slice(0, 7);
-  const secondaryOutline = hsbToHex([hue, 5, 94]).slice(0, 7);
+  const primaryText = hsbToHex([hue, 55, 90]).slice(0, 7);
+  const secondaryText = hsbToHex([hue, 30, 75]).slice(0, 7);
+  const primaryOutline = hsbToHex([hue, 25, 80]).slice(0, 7);
+  const secondaryOutline = hsbToHex([hue, 10, 95]).slice(0, 7);
   const fill = hsbToHex([hue, 2, 98]).slice(0, 7);
-
   return { primaryText, secondaryText, primaryOutline, secondaryOutline, fill };
 }
 
