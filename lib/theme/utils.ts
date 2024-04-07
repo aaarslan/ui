@@ -117,8 +117,8 @@ function paletteGenerator(hue: number, background: string, isLight: boolean) {
   const fill = hsbToHex([hue, 10, 100]).slice(0, 7);
 
   return {
-    primaryText: colors[0],
-    secondaryText: colors[1],
+    textPrimary: colors[0],
+    textSecondary: colors[1],
     stroke: colors[2],
     accent,
     fill,

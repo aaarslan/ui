@@ -69,6 +69,7 @@ interface ThemeContextType {
 interface ThemeProviderProps {
   children: React.ReactNode;
   customTokens?: Partial<ThemeTokens>;
+  hex?: string;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -254,9 +255,16 @@ const darkThemeTokens: ThemeTokens = {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   customTokens = {},
+  hex = "#8839ef",
 }) => {
-  const [brand, setBrand] = useState("#8839ef");
+  const [brand, setBrand] = useState(hex);
   const [isLight, setIsLight] = useState(true);
+
+  useEffect(() => {
+    setBrand(hex);
+    lightThemeTokens.colors.brand = hex;
+    darkThemeTokens.colors.brand = hex;
+  }, [hex]);
 
   const theme = useMemo(() => {
     const baseTheme = isLight ? lightThemeTokens : darkThemeTokens;
