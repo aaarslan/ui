@@ -1,5 +1,6 @@
 import { Button } from "../lib/button";
 import { useTheme } from "../lib/theme";
+import { contrastRatio } from "../lib/theme/utils";
 import { Typography } from "../lib/typography";
 function App() {
   const { theme, setIsLight, isLight } = useTheme();
@@ -23,52 +24,129 @@ function App() {
         <hr />
         <Typography vx="heading">Colors</Typography>
         <Typography vx="body">
+          {contrastRatio(theme.colors.brand, theme.colors.fill) > 4.5 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.brand}` }}>
             Brand: {theme.colors.brand}
           </span>
           <br />
+          {contrastRatio(theme.colors.background, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.background}` }}>
             Background: {theme.colors.background}
           </span>
           <br />
+          {contrastRatio(theme.colors.textPrimary, theme.colors.fill) > 4.5 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.textPrimary}` }}>
             Text Primary: {theme.colors.textPrimary}
           </span>
           <br />
+          {contrastRatio(theme.colors.textSecondary, theme.colors.fill) >
+          4.5 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.textSecondary}` }}>
             Text Secondary: {theme.colors.textSecondary}
           </span>
           <br />
+          {contrastRatio(theme.colors.stroke, theme.colors.fill) > 3 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.stroke}` }}>
             Stroke: {theme.colors.stroke}
           </span>
           <br />
+          {contrastRatio(theme.colors.accent, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.accent}` }}>
             Accent: {theme.colors.accent}
           </span>
           <br />
+          {contrastRatio(theme.colors.fill, theme.colors.fill) >= 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.fill}` }}>
             Fill: {theme.colors.fill}
           </span>
           <br />
-          <span style={{ backgroundColor: `${theme.colors.danger}` }}>
-            Danger: {theme.colors.danger}
+          {contrastRatio(theme.colors.error, theme.colors.fill) > 3 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
+          <span style={{ backgroundColor: `${theme.colors.error}` }}>
+            error: {theme.colors.error}
           </span>
           <br />
+          {contrastRatio(theme.colors.warning, theme.colors.fill) >= 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.warning}` }}>
             Warning: {theme.colors.warning}
           </span>
           <br />
+          {contrastRatio(theme.colors.success, theme.colors.fill) > 3 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.success}` }}>
             Success: {theme.colors.success}
           </span>
           <br />
+          {contrastRatio(theme.colors.white, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.white}` }}>
             White: {theme.colors.white}
           </span>
           <br />
+          {contrastRatio(theme.colors.black, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
           <span style={{ backgroundColor: `${theme.colors.black}` }}>
             Black: {theme.colors.black}
+          </span>
+          {contrastRatio(theme.colors.black, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
+          <span style={{ backgroundColor: `${theme.colors.raised}` }}>
+            Raised: {theme.colors.raised}
+          </span>
+          {contrastRatio(theme.colors.black, theme.colors.fill) > 1 ? (
+            <span>✅</span>
+          ) : (
+            <span>❌</span>
+          )}
+          <span style={{ backgroundColor: `${theme.colors.overlay}` }}>
+            Overlay: {theme.colors.overlay}
           </span>
         </Typography>
         <hr />
@@ -95,6 +173,43 @@ function App() {
           Tertiary Button
         </Button>
       </div>
+      <>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: !isLight ? theme.colors.raised : theme.colors.fill,
+            height: "200px",
+            width: "200px",
+            borderRadius: `${theme.borderRadius.md}px`,
+            boxShadow: isLight ? theme.shadows.raised : "none",
+            padding: `${theme.spacing.md}px`,
+          }}
+        >
+          <Typography vx="span">Raised</Typography>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: !isLight
+                ? theme.colors.overlay
+                : theme.colors.fill,
+              height: "100px",
+              width: "70px",
+              borderRadius: `${theme.borderRadius.md}px`,
+              boxShadow: isLight ? theme.shadows.overlay : "none",
+              padding: `${theme.spacing.sm}px`,
+            }}
+          >
+            <Typography vx="span">Overlay</Typography>
+          </div>
+        </div>
+      </>
     </body>
   );
 }

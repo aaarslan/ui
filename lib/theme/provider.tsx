@@ -10,6 +10,7 @@ interface Typography {
   color: string;
 }
 
+// TODO: Refactor colors tokens and expand to include all colors and variants
 export interface ThemeTokens {
   colors: {
     brand: string;
@@ -19,11 +20,18 @@ export interface ThemeTokens {
     stroke: string;
     accent: string;
     fill: string;
-    danger: string;
+    error: string;
     warning: string;
     success: string;
     white: string;
     black: string;
+    raised: string;
+    overlay: string;
+    fg500: string;
+    fg400: string;
+    fg300: string;
+    fg200: string;
+    fg100: string;
   };
   typography: {
     heading: Typography;
@@ -53,9 +61,8 @@ export interface ThemeTokens {
     lg: number;
   };
   shadows: {
-    sm: string;
-    md: string;
-    lg: string;
+    raised: string;
+    overlay: string;
   };
 }
 
@@ -91,11 +98,18 @@ const lightThemeTokens: ThemeTokens = {
     stroke: "#7e6b96",
     accent: "#c9aaf2",
     fill: "#f1e6ff",
-    danger: "#d20f39",
-    warning: "#df8e1d",
-    success: "#40a02b",
+    error: "#c73a3a",
+    warning: "#e0a929",
+    success: "#379478",
     white: "#ffffff",
     black: "#1a1a1a",
+    raised: "#ffffff",
+    overlay: "#000000",
+    fg500: "rgba(0, 0, 0, 0.9)",
+    fg400: "rgba(0, 0, 0, 0.6)",
+    fg300: "rgba(0, 0, 0, 0.45)",
+    fg200: "rgba(0, 0, 0, 0.1)",
+    fg100: "rgba(0, 0, 0, 0.04)",
   },
   typography: {
     heading: {
@@ -161,9 +175,8 @@ const lightThemeTokens: ThemeTokens = {
     lg: 32,
   },
   shadows: {
-    sm: "0px 8px 16px rgba(0, 0, 0, 0.1)",
-    md: "0px 16px 32px rgba(0, 0, 0, 0.1)",
-    lg: "0px 32px 48px rgba(0, 0, 0, 0.1)",
+    raised: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    overlay: "0px 4px 8px rgba(0, 0, 0, 0.2)",
   },
 };
 
@@ -176,11 +189,18 @@ const darkThemeTokens: ThemeTokens = {
     stroke: "#af99cc",
     accent: "#c9aaf2",
     fill: "#f1e6ff",
-    danger: "#f38ba8",
-    warning: "#f9e2af",
-    success: "#a6e3a1",
+    error: "#c73a3a",
+    warning: "#e0a929",
+    success: "#379478",
     white: "#ffffff",
     black: "#1a1a1a",
+    raised: "#ffffff",
+    overlay: "#000000",
+    fg500: "rgba(255, 255, 255, 1)",
+    fg400: "rgba(255, 255, 255, 0.78)",
+    fg300: "rgba(255, 255, 255, 0.60)",
+    fg200: "rgba(255, 255, 255, 0.12)",
+    fg100: "rgba(255, 255, 255, 0.06)",
   },
   typography: {
     heading: {
@@ -246,9 +266,8 @@ const darkThemeTokens: ThemeTokens = {
     lg: 32,
   },
   shadows: {
-    sm: "0px 8px 16px rgba(0, 0, 0, 0.1)",
-    md: "0px 16px 32px rgba(0, 0, 0, 0.1)",
-    lg: "0px 32px 48px rgba(0, 0, 0, 0.1)",
+    raised: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    overlay: "0px 4px 8px rgba(0, 0, 0, 0.2)",
   },
 };
 
@@ -269,17 +288,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   const theme = useMemo(() => {
     const baseTheme = isLight ? lightThemeTokens : darkThemeTokens;
     const mergedTheme = { ...baseTheme, ...customTokens };
-    const dynamicPalette = paletteGenerator(
-      hexToHsb(brand)[0],
-      mergedTheme.colors.background,
-      isLight,
-    );
+    const dynamicPalette = paletteGenerator(hexToHsb(brand)[0], isLight);
 
     const extendedTheme = {
       ...mergedTheme,
       colors: {
         ...mergedTheme.colors,
         ...dynamicPalette,
+      },
+      shadows: {
+        raised: `0px 2px 4px ${dynamicPalette.raised}`,
+        overlay: `0px 4px 16px ${dynamicPalette.overlay}`,
       },
       isLight,
     };

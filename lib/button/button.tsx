@@ -14,32 +14,43 @@ const useButtonStyles = (
   disabled: boolean | undefined,
   isHovered: boolean,
   isFocused: boolean,
+  isPressed: boolean,
 ) => {
   const borderRadiusValue = theme.borderRadius[rd];
   const variantStyles = {
     primary: {
-      color: "var(--aa-color-white)",
-      backgroundColor:
-        isHovered && !disabled
+      color: "var(--aa-color-textPrimary)",
+      backgroundColor: isPressed
+        ? "var(--aa-color-textPrimary)"
+        : isHovered && !disabled
           ? "var(--aa-color-textSecondary)"
-          : "var(--aa-color-brand)",
+          : disabled
+            ? "var(--aa-color-accent)"
+            : "var(--aa-color-brand)",
       border: "1px solid var(--aa-color-brand)",
+      opacity: disabled ? "0.5" : "1",
+      animation: isPressed ? "pulse" : "none",
     },
     secondary: {
-      color: "var(--aa-color-textPrimary)",
-      backgroundColor:
-        isHovered && !disabled
+      color: "var(--aa-color-brand)",
+      backgroundColor: isPressed
+        ? "var(--aa-color-stroke)"
+        : isHovered && !disabled
           ? "var(--aa-color-accent)"
-          : "var(--aa-color-fill)",
-      border: "1px solid var(--aa-color-accent)",
+          : "var(--aa-color-background)",
+      border: "1px solid var(--aa-color-brand)",
+      opacity: disabled ? "0.5" : "1",
     },
     tertiary: {
       color: "var(--aa-color-textSecondary)",
-      backgroundColor:
-        isHovered && !disabled
-          ? "var(--aa-color-fill)"
-          : "var(--aa-color-background)",
-      border: "1px solid var(--aa-color-brand)",
+      textDecoration: isPressed
+        ? "wavy underline"
+        : isHovered && !disabled
+          ? "none"
+          : "underline",
+      backgroundColor: "transparent",
+      border: "none",
+      opacity: disabled ? "0.5" : "1",
     },
   };
 
@@ -50,7 +61,6 @@ const useButtonStyles = (
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: borderRadiusValue,
     cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.5 : 1,
     boxShadow: isFocused ? "0 0 0 2px var(--aa-color-brand)" : "none",
     transition: "all 0.3s ease",
     fontSize: "var(--aa-span-fontSize)",
@@ -61,7 +71,15 @@ const useButtonStyles = (
 const useInteractionStates = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  return { isHovered, setIsHovered, isFocused, setIsFocused };
+  const [isPressed, setIsPressed] = useState(false);
+  return {
+    isHovered,
+    setIsHovered,
+    isFocused,
+    setIsFocused,
+    isPressed,
+    setIsPressed,
+  };
 };
 
 /**
@@ -80,8 +98,14 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const { theme } = useTheme();
-  const { isHovered, setIsHovered, isFocused, setIsFocused } =
-    useInteractionStates();
+  const {
+    isHovered,
+    setIsHovered,
+    isFocused,
+    setIsFocused,
+    isPressed,
+    setIsPressed,
+  } = useInteractionStates();
   const dynamicStyles = useButtonStyles(
     vx,
     rd,
@@ -89,6 +113,7 @@ const Button: React.FC<ButtonProps> = ({
     disabled,
     isHovered,
     isFocused,
+    isPressed,
   );
 
   return (
@@ -98,6 +123,8 @@ const Button: React.FC<ButtonProps> = ({
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
       disabled={disabled}
       {...props}
     >
