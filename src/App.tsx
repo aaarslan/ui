@@ -172,6 +172,29 @@ function App() {
         <Button vx="tertiary" disabled>
           Tertiary Button
         </Button>
+        <hr />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <span style={{ backgroundColor: `${theme.colors.brandFill}` }}>
+            Brand Fill: {theme.colors.brandFill}
+          </span>
+          <span
+            style={{ backgroundColor: `${theme.colors.brandStrokeStrong}` }}
+          >
+            Brand Stroke: {theme.colors.brandStrokeStrong}
+          </span>
+          <span style={{ backgroundColor: `${theme.colors.brandText}` }}>
+            Brand Text: {theme.colors.brandText}
+          </span>
+          <span
+            style={{
+              backgroundColor: `${theme.colors.successFill}`,
+              color: `${theme.colors.successText}`,
+              border: `1px solid ${theme.colors.successStrokeStrong}`,
+            }}
+          >
+            Brand Text: {theme.colors.brandText}
+          </span>
+        </div>
       </div>
       <>
         <div

@@ -10,7 +10,6 @@ interface Typography {
   color: string;
 }
 
-// TODO: Refactor colors tokens and expand to include all colors and variants
 export interface ThemeTokens {
   colors: {
     brand: string;
@@ -32,6 +31,27 @@ export interface ThemeTokens {
     fg300: string;
     fg200: string;
     fg100: string;
+    textStrong: string;
+    textWeak: string;
+    strokeStrong: string;
+    strokeWeak: string;
+    fillLight: string;
+    brandText: string;
+    brandStrokeStrong: string;
+    brandStrokeWeak: string;
+    brandFill: string;
+    errorText: string;
+    errorStrokeStrong: string;
+    errorStrokeWeak: string;
+    errorFill: string;
+    warningText: string;
+    warningStrokeStrong: string;
+    warningStrokeWeak: string;
+    warningFill: string;
+    successText: string;
+    successStrokeStrong: string;
+    successStrokeWeak: string;
+    successFill: string;
   };
   typography: {
     heading: Typography;
@@ -110,6 +130,27 @@ const lightThemeTokens: ThemeTokens = {
     fg300: "rgba(0, 0, 0, 0.45)",
     fg200: "rgba(0, 0, 0, 0.1)",
     fg100: "rgba(0, 0, 0, 0.04)",
+    textStrong: "rgba(0, 0, 0, 0.9)",
+    textWeak: "rgba(0, 0, 0, 0.6)",
+    strokeStrong: "rgba(0, 0, 0, 0.45)",
+    strokeWeak: "rgba(0, 0, 0, 0.1)",
+    fillLight: "rgba(0, 0, 0, 0.04)",
+    brandText: "rgba(136, 57, 239, 1)",
+    brandStrokeStrong: "rgba(136, 57, 239, 0.8)",
+    brandStrokeWeak: "rgba(136, 57, 239, 0.2)",
+    brandFill: "rgba(136, 57, 239, 0.05)",
+    errorText: "rgba(199, 58, 58, 1)",
+    errorStrokeStrong: "rgba(199, 58, 58, 0.8)",
+    errorStrokeWeak: "rgba(199, 58, 58, 0.2)",
+    errorFill: "rgba(199, 58, 58, 0.05)",
+    warningText: "rgba(224, 169, 41, 1)",
+    warningStrokeStrong: "rgba(224, 169, 41, 0.8)",
+    warningStrokeWeak: "rgba(224, 169, 41, 0.2)",
+    warningFill: "rgba(224, 169, 41, 0.05)",
+    successText: "rgba(55, 148, 120, 1)",
+    successStrokeStrong: "rgba(55, 148, 120, 0.8)",
+    successStrokeWeak: "rgba(55, 148, 120, 0.2)",
+    successFill: "rgba(55, 148, 120, 0.05)",
   },
   typography: {
     heading: {
@@ -201,6 +242,27 @@ const darkThemeTokens: ThemeTokens = {
     fg300: "rgba(255, 255, 255, 0.60)",
     fg200: "rgba(255, 255, 255, 0.12)",
     fg100: "rgba(255, 255, 255, 0.06)",
+    textStrong: "rgba(255, 255, 255, 0.9)",
+    textWeak: "rgba(255, 255, 255, 0.6)",
+    strokeStrong: "rgba(255, 255, 255, 0.45)",
+    strokeWeak: "rgba(255, 255, 255, 0.1)",
+    fillLight: "rgba(255, 255, 255, 0.04)",
+    brandText: "rgba(158, 103, 230, 1)",
+    brandStrokeStrong: "rgba(158, 103, 230, 0.8)",
+    brandStrokeWeak: "rgba(158, 103, 230, 0.2)",
+    brandFill: "rgba(158, 103, 230, 0.05)",
+    errorText: "rgba(199, 58, 58, 1)",
+    errorStrokeStrong: "rgba(199, 58, 58, 0.8)",
+    errorStrokeWeak: "rgba(199, 58, 58, 0.2)",
+    errorFill: "rgba(199, 58, 58, 0.05)",
+    warningText: "rgba(224, 169, 41, 1)",
+    warningStrokeStrong: "rgba(224, 169, 41, 0.8)",
+    warningStrokeWeak: "rgba(224, 169, 41, 0.2)",
+    warningFill: "rgba(224, 169, 41, 0.05)",
+    successText: "rgba(55, 148, 120, 1)",
+    successStrokeStrong: "rgba(55, 148, 120, 0.8)",
+    successStrokeWeak: "rgba(55, 148, 120, 0.2)",
+    successFill: "rgba(55, 148, 120, 0.05)",
   },
   typography: {
     heading: {
