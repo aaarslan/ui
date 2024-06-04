@@ -19,30 +19,29 @@ const useButtonStyles = (
   const borderRadiusValue = theme.borderRadius[rd];
   const variantStyles = {
     primary: {
-      color: "var(--aa-color-textPrimary)",
+      color: theme.colors.textPrimary,
       backgroundColor: isPressed
-        ? "var(--aa-color-textPrimary)"
+        ? theme.colors.brandStrokeStrong
         : isHovered && !disabled
-          ? "var(--aa-color-textSecondary)"
+          ? theme.colors.brandStrokeWeak
           : disabled
-            ? "var(--aa-color-accent)"
-            : "var(--aa-color-brand)",
-      border: "1px solid var(--aa-color-brand)",
+            ? theme.colors.accent
+            : theme.colors.brand,
+      border: `1px solid ${theme.colors.brand}`,
       opacity: disabled ? "0.5" : "1",
-      animation: isPressed ? "pulse" : "none",
     },
     secondary: {
-      color: "var(--aa-color-brand)",
+      color: theme.colors.brand,
       backgroundColor: isPressed
-        ? "var(--aa-color-stroke)"
+        ? theme.colors.stroke
         : isHovered && !disabled
-          ? "var(--aa-color-accent)"
-          : "var(--aa-color-background)",
-      border: "1px solid var(--aa-color-brand)",
+          ? theme.colors.accent
+          : theme.colors.background,
+      border: `1px solid ${theme.colors.brand}`,
       opacity: disabled ? "0.5" : "1",
     },
     tertiary: {
-      color: "var(--aa-color-textSecondary)",
+      color: theme.colors.textSecondary,
       textDecoration: isPressed
         ? "wavy underline"
         : isHovered && !disabled
@@ -61,10 +60,10 @@ const useButtonStyles = (
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: borderRadiusValue,
     cursor: disabled ? "not-allowed" : "pointer",
-    boxShadow: isFocused ? "0 0 0 2px var(--aa-color-brand)" : "none",
+    boxShadow: isFocused ? `0 0 0 2px ${theme.colors.brand}` : "none",
     transition: "all 0.3s ease",
-    fontSize: "var(--aa-span-fontSize)",
-    fontWeight: "600",
+    fontSize: theme.typography.body.fontSize,
+    fontWeight: theme.typography.heading4.fontWeight,
   };
 };
 

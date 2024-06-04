@@ -172,6 +172,9 @@ function App() {
         <Button vx="tertiary" disabled>
           Tertiary Button
         </Button>
+        <Button vx="primary" rd={"lg"}>
+          😶‍🌫️
+        </Button>
         <hr />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span style={{ backgroundColor: `${theme.colors.brandFill}` }}>
